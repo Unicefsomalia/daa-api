@@ -1,0 +1,54 @@
+{% load report_tags %}
+{% load humanize %}
+<div class="row ">
+    <div class="row ">
+        <div class="col-12" style="padding-left: 50px;">
+            <div class="stats-title">Overall Statistics</div>
+            <div class="stats-subtitle">Showing from start of the project to date</div>
+        </div>
+    </div>
+
+    <div class="row stats-wrapper">
+        <div class="col text-center">
+            <i class="fa fa-graduation-cap fa-3x"></i>
+            <div class="stats-items-title">{{overall_stats.active_schools|default:0|intcomma}}</div>
+            <div class="stats-items-subtitle">Total schools</div>
+        </div>
+
+        <div class="col text-center">
+            <i class="fa fa-users fa-3x"></i>
+            <div class="stats-items-title">
+                {{overall_stats.students.males|add:overall_stats.students.females|default:0|intcomma}}
+            </div>
+            <div class="stats-items-subtitle">
+                Total Learners Enrolled <br>
+                {{overall_stats.students.males|default:0|intcomma}} Males <br>
+                {{overall_stats.students.females|default:0|intcomma}} Females
+
+            </div>
+        </div>
+
+        <div class="col text-center">
+            <i class="fa fa-users fa-3x"></i>
+            <div class="stats-items-title">
+                {{all_status_enrollment.dict_results.re_enrolled.total_students|default:0|intcomma}}
+            </div>
+            <div class="stats-items-subtitle">Dropout Learners Enrolled<br>
+                {{all_status_enrollment.dict_results.re_enrolled.males|default:0|intcomma}} Males <br>
+                {{all_status_enrollment.dict_results.re_enrolled.females|default:0|intcomma}} Females
+            </div>
+        </div>
+
+        <div class="col text-center">
+            <i class="fa fa-users fa-3x"></i>
+            <div class="stats-items-title">
+                {{all_status_enrollment.dict_results.newly_enrolled.total_students|default:0|intcomma}}
+            </div>
+            <div class="stats-items-subtitle">Never Been to School Learners Enrolled<br>
+                {{all_status_enrollment.dict_results.newly_enrolled.males|default:0|intcomma}} Males <br>
+                {{all_status_enrollment.dict_results.newly_enrolled.females|default:0|intcomma}} Females
+            </div>
+        </div>
+    </div>
+
+</div>

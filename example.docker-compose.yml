@@ -1,0 +1,81 @@
+version: "3.8"
+services:
+  media:
+    image: nginx:1.15
+    networks:
+      - db
+    ports:
+      - 8888:80
+
+    volumes:
+      - media:/usr/share/nginx/media
+      - static:/usr/share/nginx/static
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+
+  memcached:
+    image: memcached:latest
+    ports:
+      - "11211:11211"
+
+  background:
+    image: michameiu/somapi:v1.0.6.arm # Location with a Dockerfile
+    command: python manage.py process_tasks
+    depends_on:
+      - db
+      - memcached
+
+    networks:
+      - db
+    volumes:
+      - media:/media
+      - static:/static
+
+    environment:
+      - SECRET_KEY=test_key
+      - DB_NAME=somapi
+      - DB_USER=som
+      - DB_PASSWORD=test_password
+      - DB_HOST=db
+      - DEBUG=True
+
+  api:
+    image: michameiu/somapi:v1.0.6.arm # Location with a Dockerfile
+    restart: always
+    depends_on:
+      - db
+    networks:
+      - db
+    ports:
+      - 8000:8000
+    volumes:
+      - media:/media
+      - static:/static
+
+    environment:
+      - SECRET_KEY=test_key
+      - DB_NAME=db_name
+      - DB_USER=db_user
+      - DB_PASSWORD=db_password
+      - DB_HOST=db
+      - DEBUG=True
+      - MEDIA_URL=http://localhost:8888/media/
+      - STATIC_URL=http://localhost:8888/static/
+
+  db:
+    image: postgres:12
+    restart: always
+    networks:
+      - db
+    environment:
+      POSTGRES_PASSWORD: db_password
+      POSTGRES_USER: db_user
+      POSTGRES_DB: db_name
+    volumes:
+      - pg2:/var/lib/postgresql/data
+
+volumes:
+  pg2:
+  media:
+  static:
+networks:
+  db:

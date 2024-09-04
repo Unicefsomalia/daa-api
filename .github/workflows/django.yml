@@ -1,0 +1,50 @@
+name: Django CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  LIBRARY_PATH: /home/gocd/openssl/lib
+  CPATH: /home/gocd/openssl/include
+  openssl: /home/gocd/openssl/bin/openssl
+  DESTINATION_FOLDER: /home/requestafricadev/apps/somapi/somapi
+
+jobs:
+  build:
+    name: Moe  Somali API
+    runs-on: python1
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create Virtual Environment
+        run: |
+          virtualenv venv --python=python3.8
+          mkdir test_static || true
+          mkdir test_media || true
+
+      # - name: Install Dependencies
+      #   run: |
+      #     source venv/bin/activate
+      #     pip install -r requirements.txt
+
+      # - name: Testing
+      #   run: |
+      #     source venv/bin/activate
+      #     python manage.py test
+
+      - name: Deploying
+        run: |
+          rm -rf test_static test_media venv || true
+          rsync -av -e ssh --exclude='.git' --exclude='__pycache__' --exclude='venv'  --exclude='*.pyc' --exclude="local.py"   -r . requestafricadev@request.africa:$DESTINATION_FOLDER
+
+      - name: Restarting and migrating Deployments
+        run: |
+          ssh requestafricadev@request.africa <<EOF $DESTINATION_FOLDER/scripts/update EOF
+
+    # - name: Run Tests
+    #  run: |
+    #   python manage.py test

@@ -1,0 +1,81 @@
+{% load report_tags %}
+{% load humanize %}
+<div class="row ">
+    {% custom_table_title Enrollment Overview %}
+    <div class="row enrolment-wrapper">
+        <div class="row">
+            <div class="col text-center">
+                <i class="fa fa-map-marker fa-3x"></i>
+                <div class="enrolment-items-title">{{state_enrollment.count|intcomma}}</div>
+                <div class="stats-items-subtitle">States that<br> enrolled {{state_enrollment.name}}</div>
+            </div>
+            <div class="col text-center">
+                <i class="fa fa-graduation-cap fa-3x"></i>
+                <div class="enrolment-items-title">{{school_enrollment.count|intcomma}}</div>
+                <div class="stats-items-subtitle">Schools that<br> enrolled {{school_enrollment.name}}</div>
+            </div>
+            <div class="col text-center">
+                <i class="fa fa-users fa-3x"></i>
+                <div class="enrolment-items-title">
+                    {{status_enrollment.dict_results.re_enrolled.total_students|default:0|intcomma}}
+                </div>
+                <div class="stats-items-subtitle">Dropout {{status_enrollment.name}} enrolled</div>
+            </div>
+            <div class="col text-center">
+                <i class="fa fa-users fa-3x"></i>
+                <div class="enrolment-items-title">
+                    {{status_enrollment.dict_results.newly_enrolled.total_students|default:0|intcomma}}</div>
+                <div class="stats-items-subtitle">Never Been to School<br> {{status_enrollment.name}} enrolled</div>
+            </div>
+        </div>
+        <div style="height: 40px"></div>
+        <div class="row">
+            <div class="col text-center">
+                <i class="fa fa-map-marker fa-3x"></i>
+                <div class="enrolment-items-title">{{region_enrollment.count|intcomma}}</div>
+                <div class="stats-items-subtitle">Regions that<br> Enrolled {{region_enrollment.name}}</div>
+            </div>
+
+            <div class="col text-center">
+                <i class="fa fa-certificate fa-3x"></i>
+                <div class="enrolment-items-title">{{region_enrollment.top.region_name}}</div>
+                <div class="stats-items-subtitle">Region with Highest Enrollment<br>
+                    ({{region_enrollment.top.total_students|intcomma}}
+                    {{region_enrollment.name}})</div>
+            </div>
+
+            <div class="col text-center">
+                <i class="fa fa-certificate fa-3x"></i>
+                <div class="enrolment-items-title">{{district_enrollment.top.district_name}}</div>
+                <div class="stats-items-subtitle">District with Highest Enrollment<br>
+                    ({{district_enrollment.top.total_students|intcomma}}
+                    {{district_enrollment.name}})
+                </div>
+            </div>
+        </div>
+        <div style="height: 40px"></div>
+
+        <div class="row">
+            <div class="col text-center">
+                <i class="fa fa-map-marker fa-3x"></i>
+                <div class="enrolment-items-title">{{village_enrollment.count|intcomma}}</div>
+                <div class="stats-items-subtitle">Villages that<br> Enrolled {{village_enrollment.name}}</div>
+            </div>
+            <div class="col text-center">
+                <i class="fa fa-certificate fa-3x"></i>
+                <div class="enrolment-items-title">{{village_enrollment.top.village_name}}</div>
+                <div class="stats-items-subtitle">Village with Highest Enrollment<br>
+                    ({{village_enrollment.top.total_students|intcomma}}
+                    {{village_enrollment.name}})
+                </div>
+            </div>
+            <div class="col text-center">
+                <i class="fa fa-graduation-cap fa-3x"></i>
+                <div class="enrolment-items-title">{{school_enrollment.top.school_name}}</div>
+                <div class="stats-items-subtitle">School with highest enrolment<br>
+                    ({{school_enrollment.top.total_students|intcomma}} {{school_enrollment.name}})
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

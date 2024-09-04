@@ -1,0 +1,9 @@
+*/test_media/
+*/test_statuic/
+somapi/settings/local.py
+somapi/settings/.env
+.env
+*/**/__pycache__
+temp_**.xlsx
+.github
+.devcontainer

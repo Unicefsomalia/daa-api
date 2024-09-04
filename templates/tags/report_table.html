@@ -1,0 +1,92 @@
+{% load report_tags %}
+{% load humanize %}
+
+<div class="row" style="padding-bottom: 0px;">
+    <div class="col-4 text-center">
+        <i class="fa fa-users fa-3x"></i>
+        <div class="enrolment-items-title">{{count|intcomma}}</div>
+        <div class="stats-items-subtitle">{{grouping|title_case}}s Count
+        </div>
+    </div>
+    <div class="col-4 text-center">
+        <i class="fa fa-user-graduate fa-3x"></i>
+        <div class="enrolment-items-title">{{top|json_value:display_name_field}}</div>
+        <div class="stats-items-subtitle">{{grouping|title_case}} with the highest {{activity|title_case}}<br>
+            ({{top|json_value:display_value_field|intcomma}} {{name|title_case}})
+        </div>
+    </div>
+
+    <div class="col-4 text-center">
+        <i class="fa fa-user-injured fa-3x"></i>
+        <div class="enrolment-items-title">{{least|json_value:display_name_field}}</div>
+        <div class="stats-items-subtitle">{{grouping|title_case}} with the least {{activity|title_case}}<br>
+            ({{least|json_value:display_value_field|intcomma}} {{name|title_case}})
+        </div>
+    </div>
+</div>
+
+<div class="row table-wrapper" style="padding-top: 0px;">
+    <!-- {% if least_items %}
+    <div class="table-sub-title">
+        Top {{top_list_size}}
+    </div>
+    {% endif %} -->
+    <div class="table-responsive">
+        <table class="table  ">
+            <tr>
+                {% for header in headers %}
+                <th>{{header|title_case}}</th>
+                {% endfor %}
+            </tr>
+            {% for row in list %}
+            <tr style="padding-left: 40px;">
+                {% for header in headers %}
+
+                {% if row|json_value:header|is_integer %}
+
+                <td>&nbsp; {{row|json_value:header|intcomma}}</td>
+                {% else %}
+                <td>&nbsp;{{row|json_value:header}}</td>
+                {% endif %}
+
+                {% endfor %}
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+</div>
+
+{% if least_items %}
+
+<div class="row table-wrapper">
+    <div class="table-responsive">
+        <table class="table  " style="padding-top: 0px;margin-top:0px;border-top:0px">
+
+            <tr style="color:transparent;padding-top:0px">
+                {% for header in headers %}
+                <th>{{header|title_case}}</th>
+                {% endfor %}
+            </tr>
+
+            {% for row in least_items %}
+            <tr style="padding-left: 40px;padding-top:0px">
+                {% for header in headers %}
+
+                {% if row|json_value:header|is_integer %}
+
+                <td>&nbsp; {{row|json_value:header|intcomma}}</td>
+                {% else %}
+                <td>&nbsp;{{row|json_value:header}}</td>
+                {% endif %}
+
+                {% endfor %}
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+</div>
+{% else %}
+
+{% endif %}

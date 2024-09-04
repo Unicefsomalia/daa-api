@@ -1,0 +1,64 @@
+{% load report_tags %}
+{% load humanize %}
+<div class="row table-title">
+    {% custom_table_title Attendance Overview %}
+    <div class="row enrolment-wrapper">
+        <div class="row">
+
+            <div class="col text-center">
+                <i class="fa fa-graduation-cap fa-3x"></i>
+                <div class="enrolment-items-title">{{school_attendance.count|intcomma}}</div>
+                <div class="stats-items-subtitle">Schools that<br> marked attendance</div>
+            </div>
+            <div class="col text-center">
+                <i class="fa fa-map-marker fa-3x"></i>
+                <div class="enrolment-items-title">{{region_attendance.count|intcomma}}</div>
+                <div class="stats-items-subtitle">Regions that<br> marked attendance</div>
+            </div>
+
+            <div class="col text-center">
+                <i class="fa fa-map-marker fa-3x"></i>
+                <div class="enrolment-items-title">{{region_attendance.top.region_name}}</div>
+                <div class="stats-items-subtitle">Highest marked attendance<br> Region</div>
+            </div>
+
+            <div class="col text-center">
+                <i class="fa fa-map-marker fa-3x"></i>
+                <div class="enrolment-items-title">{{district_attendance.top.district_name}}</div>
+                <div class="stats-items-subtitle">Highest marked attendance<br> District</div>
+            </div>
+
+        </div>
+        <div style="height: 120px"></div>
+        <div class="row">
+            <div class="col text-center">
+                <i class="fa fa-map-marker fa-3x"></i>
+                <div class="enrolment-items-title">{{village_attendance.top.village_name}}</div>
+                <div class="stats-items-subtitle">Highest marked attendance<br> Village</div>
+            </div>
+
+            <div class="col text-center">
+                <i class="fa fa-certificate fa-3x"></i>
+                <div class="enrolment-items-title">
+                    {{gender_attendance.dict_results.male.present_percentage|default:0|floatformat:0}}%
+                </div>
+                <div class="stats-items-subtitle">Boy Learners Present</div>
+            </div>
+
+            <div class="col text-center">
+                <i class="fa fa-certificate fa-3x"></i>
+                <div class="enrolment-items-title">
+                    {{gender_attendance.dict_results.female.present_percentage|default:0|floatformat:0 }}%
+                </div>
+                <div class="stats-items-subtitle">Girl Learners Present</div>
+            </div>
+
+            <div class="col text-center">
+                <i class="fa fa-graduation-cap fa-3x"></i>
+                <div class="enrolment-items-title">{{school_attendance.top.school_name}}</div>
+                <div class="stats-items-subtitle">School that marked<br> highest attendance</div>
+            </div>
+        </div>
+
+    </div>
+</div>
