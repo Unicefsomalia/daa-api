@@ -1,16 +1,12 @@
 name: Django CI
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+on: [workflow_dispatch]
 
 env:
   LIBRARY_PATH: /home/gocd/openssl/lib
   CPATH: /home/gocd/openssl/include
   openssl: /home/gocd/openssl/bin/openssl
-  DESTINATION_FOLDER: /home/requestafricadev/apps/somapi/somapi
+  DESTINATION_FOLDER: /folder/path
 
 jobs:
   build:
@@ -35,15 +31,6 @@ jobs:
       #   run: |
       #     source venv/bin/activate
       #     python manage.py test
-
-      - name: Deploying
-        run: |
-          rm -rf test_static test_media venv || true
-          rsync -av -e ssh --exclude='.git' --exclude='__pycache__' --exclude='venv'  --exclude='*.pyc' --exclude="local.py"   -r . requestafricadev@request.africa:$DESTINATION_FOLDER
-
-      - name: Restarting and migrating Deployments
-        run: |
-          ssh requestafricadev@request.africa <<EOF $DESTINATION_FOLDER/scripts/update EOF
 
     # - name: Run Tests
     #  run: |
